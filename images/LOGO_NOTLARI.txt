@@ -1,0 +1,24 @@
+LOGO KURULUM TALİMATLARI
+========================
+
+Lütfen gönderdiğiniz logo görselini şu adımları takip ederek kaydedin:
+
+1. Logo görselini (anchor + MANQUEE CRUISES görseli) indirin veya kaydedin
+
+2. Görseli şu isimle kaydedin: logo.png
+
+3. Bu dosyayı (logo.png) şu klasöre kopyalayın:
+   /home/ybc/Desktop/projects/html/yat kiralama 3/images/
+
+4. Logo boyutları:
+   - Önerilen yükseklik: 70-80 piksel
+   - PNG formatı (şeffaf arka plan)
+   - Yüksek çözünürlük (2x veya 3x retina desteği için)
+
+5. Alternatif olarak:
+   - logo.svg (vektörel format - en ideal)
+   - logo@2x.png (retina ekranlar için)
+
+NOT: Şu anda HTML dosyası images/logo.png dosyasını aramaktadır.
+Logo dosyası eklendikten sonra sayfa tam olarak hazır olacaktır.
+
