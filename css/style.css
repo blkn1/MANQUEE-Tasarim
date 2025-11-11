@@ -268,6 +268,25 @@ img {
     gap: 0.5rem;
 }
 
+.mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 19, 30, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+body.mobile-nav-open {
+    overflow: hidden;
+}
+
+body.mobile-nav-open .mobile-nav-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 /* ========================================
    MODERN LANGUAGE SELECTOR
    ======================================== */
@@ -558,19 +577,17 @@ img {
 }
 
 /* Modern Date Input - Custom Styled */
-.form-group input[type="date"] {
+.form-group .date-input {
     position: relative;
     cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%2300a8cc' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='4' width='18' height='18' rx='4' ry='4'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center;
+    padding-right: 3.5rem;
 }
 
-.form-group input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    opacity: 0.6;
-    transition: var(--transition-fast);
-}
-
-.form-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    opacity: 1;
+.form-group .date-input:read-only {
+    background-color: #fdfefe;
 }
 
 /* Premium Search Button */
@@ -617,6 +634,86 @@ img {
 .btn-search:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+/* ========================================
+   PREMIUM DATE PICKER (Litepicker)
+   ======================================== */
+
+.litepicker {
+    font-family: 'Inter', sans-serif;
+    border-radius: 28px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(15, 30, 45, 0.25);
+    overflow: hidden;
+}
+
+.litepicker .container__main {
+    padding: 1.5rem 1.75rem 1.25rem;
+}
+
+.litepicker .month-item {
+    padding: 1rem;
+}
+
+.litepicker .month-item-header {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.litepicker .month-item-weekdays-row {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.litepicker .day-item {
+    font-weight: 600;
+    border-radius: 12px;
+    transition: var(--transition-fast);
+}
+
+.litepicker .day-item:hover {
+    background-color: rgba(0, 168, 204, 0.1);
+    color: var(--organic-deep);
+}
+
+.litepicker .day-item.is-today {
+    border: 1px solid rgba(0, 168, 204, 0.35);
+}
+
+.litepicker .day-item.is-in-range {
+    background: linear-gradient(90deg, rgba(0, 168, 204, 0.12), rgba(0, 212, 255, 0.12));
+    color: var(--organic-deep);
+}
+
+.litepicker .day-item.is-start-date,
+.litepicker .day-item.is-end-date {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    box-shadow: 0 6px 20px rgba(0, 168, 204, 0.4);
+}
+
+.litepicker .container__footer {
+    padding: 0.75rem 1.75rem 1.5rem;
+}
+
+.litepicker .button-apply,
+.litepicker .button-reset {
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+}
+
+.litepicker .button-reset {
+    color: var(--text-secondary);
+}
+
+.litepicker .button-apply {
+    background: var(--primary);
+    border: none;
+    box-shadow: var(--shadow-sm);
 }
 
 /* ========================================
@@ -871,10 +968,6 @@ img {
     
     .search-form {
         grid-template-columns: 1fr;
-    }
-    
-    .main-nav {
-        display: none;
     }
     
     .mobile-menu-toggle {
