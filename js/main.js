@@ -1,22 +1,6 @@
 // YAT KİRALAMA SİTESİ - ANA JAVASCRIPT DOSYASI
 
 // ========================================
-// MOBILE MENU TOGGLE
-// ========================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    
-    if (menuToggle && mobileNav) {
-        menuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            mobileNav.classList.toggle('active');
-        });
-    }
-});
-
-// ========================================
 // GLOBAL DATA & CONFIGURATION
 // ========================================
 
@@ -297,8 +281,49 @@ function initHeader() {
     const mainNav = document.querySelector('.main-nav');
     
     if (mobileToggle && mainNav) {
+        let overlay = document.querySelector('.mobile-nav-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'mobile-nav-overlay';
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(overlay);
+        }
+        
+        const openMenu = () => {
+            mainNav.classList.add('active');
+            document.body.classList.add('mobile-nav-open');
+            mobileToggle.setAttribute('aria-expanded', 'true');
+            mobileToggle.setAttribute('aria-label', 'Mobil menüyü kapat');
+        };
+        
+        const closeMenu = () => {
+            if (!mainNav.classList.contains('active')) return;
+            mainNav.classList.remove('active');
+            document.body.classList.remove('mobile-nav-open');
+            mobileToggle.setAttribute('aria-expanded', 'false');
+            mobileToggle.setAttribute('aria-label', 'Mobil menüyü aç');
+        };
+        
         mobileToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
+            const willOpen = !mainNav.classList.contains('active');
+            willOpen ? openMenu() : closeMenu();
+        });
+        
+        overlay.addEventListener('click', closeMenu);
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 920) {
+                closeMenu();
+            }
+        });
+        
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
         });
     }
     
@@ -332,12 +357,57 @@ function initSearchBar() {
         performSearch();
     });
     
-    // Set minimum date to today
-    const dateInputs = searchForm.querySelectorAll('input[type="date"]');
-    const today = new Date().toISOString().split('T')[0];
+    const dateInputs = searchForm.querySelectorAll('.date-input');
+    const today = new Date();
+    const todayISO = today.toISOString().split('T')[0];
+    
     dateInputs.forEach(input => {
-        input.min = today;
+        input.value = input.value || '';
     });
+    
+    const startInput = document.getElementById('search-start-date');
+    const endInput = document.getElementById('search-end-date');
+    
+    if (window.Litepicker && startInput && endInput) {
+        const getMonthCount = () => window.matchMedia('(max-width: 640px)').matches ? 1 : 2;
+        const picker = new Litepicker({
+            element: startInput,
+            elementEnd: endInput,
+            singleMode: false,
+            lang: 'tr-TR',
+            format: 'YYYY-MM-DD',
+            numberOfMonths: getMonthCount(),
+            numberOfColumns: getMonthCount(),
+            autoApply: true,
+            minDate: todayISO,
+            resetButton: true,
+            tooltipText: { one: 'gece', other: 'gece' },
+            tooltipNumber: (totalDays) => Math.max(totalDays - 1, 0)
+        });
+        
+        picker.on('render', () => {
+            const resetBtn = document.querySelector('.litepicker .button-reset');
+            if (resetBtn) {
+                resetBtn.textContent = 'Tarihleri temizle';
+            }
+        });
+        
+        startInput.setAttribute('readonly', 'readonly');
+        endInput.setAttribute('readonly', 'readonly');
+        
+        window.addEventListener('resize', () => {
+            const months = getMonthCount();
+            picker.setOptions({
+                numberOfMonths: months,
+                numberOfColumns: months
+            });
+        });
+    } else {
+        dateInputs.forEach(input => {
+            input.type = 'date';
+            input.min = todayISO;
+        });
+    }
 }
 
 function performSearch() {
@@ -1333,4 +1403,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
