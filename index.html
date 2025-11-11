@@ -6,6 +6,7 @@
     <meta name="description" content="İstanbul ve Bodrum'da günlük yat kiralama. Filo bize ait, en uygun fiyatlarla lüks tekneler.">
     <title>Yat Kiralama - İstanbul & Bodrum Günlük Tekne Kiralama</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css">
 </head>
 <body>
     <!-- HEADER -->
@@ -19,7 +20,7 @@
                 </div>
             </a>
             
-            <nav class="main-nav">
+            <nav class="main-nav" id="primary-navigation">
                 <ul class="nav-menu">
                     <li><a href="arama.html?location=">Tekneler</a></li>
                     <li><a href="blog.html">Tur Rehberi</a></li>
@@ -57,7 +58,7 @@
                 </a>
             </div>
             
-            <button class="mobile-menu-toggle">☰</button>
+            <button class="mobile-menu-toggle" type="button" aria-label="Mobil menüyü aç" aria-controls="primary-navigation" aria-expanded="false">☰</button>
         </div>
     </header>
 
@@ -84,12 +85,12 @@
                     
                     <div class="form-group">
                         <label for="search-start-date">Başlangıç Tarihi</label>
-                        <input type="date" id="search-start-date" required>
+                        <input type="text" id="search-start-date" class="date-input" placeholder="Tarih seçin" autocomplete="off" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="search-end-date">Bitiş Tarihi (opsiyonel)</label>
-                        <input type="date" id="search-end-date">
+                        <input type="text" id="search-end-date" class="date-input" placeholder="Tarih seçin" autocomplete="off">
                     </div>
                     
                     <div class="form-group">
@@ -168,7 +169,7 @@
         </button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
-
